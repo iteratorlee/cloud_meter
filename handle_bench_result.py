@@ -46,7 +46,7 @@ def main():
 				tmpbench['region'] = region
 				index = i
 				break
-		benchresult = {}	
+		benchresult = {}
 		with open(file_path, 'r') as fi:
 			benchresult = json.load(fi)
 		cputime = 0; memtime = 0; iotime = 0; nettime = 0
@@ -64,11 +64,11 @@ def main():
 		markdatas[index] = tmpbench
 	markjson['date'] = date
 	markjson['datas'] = markdatas
-	with open('html/json/meters.json', 'r') as fmeters:
+	with open('data/meters.json', 'r') as fmeters:
 		meters = json.load(fmeters)
 	meters.insert(0, markjson)
 	print(len(meters))
-	with open('html/json/meters.json', 'w') as f:
+	with open('data/meters.json', 'w') as f:
 		json.dump(meters, f, ensure_ascii=False)
 
 if __name__ == '__main__':
