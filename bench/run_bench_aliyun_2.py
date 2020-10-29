@@ -25,8 +25,8 @@ def get_instance_detail_by_id(clt, instance_id, status='Stopped'):
 		return instance_detail
 
 # 阿里云的账户信息
-AccessKeyId = "LTAI4G71o4sEru7MX77TWPor"
-AccessKeySecret = "aBj2aEhObBNY2c6A9BiBZj2YKDnbj2"
+AccessKeyId = ""
+AccessKeySecret = ""
 
 def create_instance(clt, imageid, InstanceType):
 	Request = CreateInstanceRequest()		# 创建主机
@@ -52,7 +52,7 @@ def create_instance(clt, imageid, InstanceType):
 		time.sleep(0.1)
 
 	public_ip = allocate_ip(clt, instance_id)
-		
+
 	# 启动主机
 	Request = StartInstanceRequest()
 	Request.set_InstanceId(instance_id)
@@ -119,7 +119,7 @@ def run(public_ip, public_ip2, inner_ip2, threads_num):
 	for line in stdout.readlines():
 		if 'total time' in line:
 			sysbench_result.append(line.split(':')[1].strip())
-	
+
 	print('netperf评测中...')
 	stdin, stdout, stderr = ssh2.exec_command ('tar -zxvf netperf-2.7.0.tar.gz')
 	stdin, stdout, stderr = ssh2.exec_command ('cd netperf-2.7.0 && ./configure && make && make install')
@@ -127,7 +127,7 @@ def run(public_ip, public_ip2, inner_ip2, threads_num):
 
 	stdin, stdout, stderr = ssh.exec_command ('tar -zxvf netperf-2.7.0.tar.gz')
 	stdin, stdout, stderr = ssh.exec_command ('cd netperf-2.7.0 && ./configure && make && make install')
-	
+
 	netperf_result = []
 	stdin, stdout, stderr = ssh.exec_command ('netperf -l 30 -t TCP_RR -H ' + inner_ip2)
 	lines = stdout.readlines()
@@ -147,7 +147,7 @@ def run(public_ip, public_ip2, inner_ip2, threads_num):
 
 def get_json(sysbench_result, netperf_result):
 	pass
-	
+
 if __name__ == '__main__':
 	regionid = sys.argv[1]
 	imageid = 'ubuntu_18_04_64_20G_alibase_20190624.vhd'
